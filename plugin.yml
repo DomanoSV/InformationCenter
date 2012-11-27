@@ -1,0 +1,17 @@
+author: DomanoSV
+description: InformationCenter Bukkit Plugin.
+name: InformationCenter
+version: 0.1.0
+main: net.dkebnh.bukkit.InformationCenter.InformationCenter
+load: STARTUP
+url: http://www.dkebnh.net/
+commands:
+    help:
+        description: MaintenanceModes standard command variable.
+        usage: /help [PageName] for more information.
+        aliases: [help]
+        commands:
+    ic:
+        description: MaintenanceModes standard command variable.
+        usage: /ic help for more information.
+        aliases: [ic]

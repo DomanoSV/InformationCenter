@@ -1,0 +1,24 @@
+# If you want a user to be able to view only a selected page use the permission
+# informationcenter.page.{page-name}, or if you lazy you can setup permission groups
+# by using the permission informationcenter.book.{book-name} which is defined below.
+# Codes you can use: %%Srv% - Server Name, %%oP% - Online Players, %%mP% - Max Players, %%pN% - Player Name, %%motd% - motd
+plugin-enabled: true
+motd:
+  enabled: false
+  message:
+  - Welcome, thanks for using the DKE InformationCenter Plugin
+pages:
+  help:
+  - '&a/help [page] &f-  Views the help page you selected.'
+  - '&aWhich is configured in the config.yml'
+  worldedit:
+  - '&5//wand &f- gives you a wand.'
+  worldedit-2:
+  - '&5//set [Material] &f- Sets your selection to the'
+  - '&fmaterial selected.'
+books:
+  default:
+  - help
+  worldedit:
+  - worldedit
+  - worldedit-2
