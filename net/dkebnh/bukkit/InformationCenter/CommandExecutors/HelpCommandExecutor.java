@@ -5,6 +5,7 @@ import java.util.Set;
 
 import net.dkebnh.bukkit.InformationCenter.InformationCenter;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -32,7 +33,6 @@ public class HelpCommandExecutor implements CommandExecutor {
 		if (sender.hasPermission("informationcenter.page." + pageName.toLowerCase())){
 			return true;
 		}
-		
 		return false;
 	}
 	
@@ -54,6 +54,41 @@ public class HelpCommandExecutor implements CommandExecutor {
 							sender.sendMessage("&cPage has yet to have information Entered.");
 						}else{
 							for (int i = 0; i < message.size(); i++){
+								if (message.get(i).contains("%%pN%")){
+									String newString = message.get(i).replace("%%pN%", sender.getName());
+									message.set(i, newString);
+								}
+								
+								if (message.get(i).contains("%%mP%")){
+									String newString = message.get(i).replace("%%mP%", Integer.toString(Bukkit.getServer().getMaxPlayers()));
+									message.set(i, newString);
+								}
+								
+								if (message.get(i).contains("%%oP%")){
+									String newString = message.get(i).replace("%%oP%", Integer.toString(Bukkit.getServer().getOnlinePlayers().length));
+									message.set(i, newString);
+								}
+								
+								if (message.get(i).contains("%%srvN%")){
+									String newString = message.get(i).replace("%%srvN%", Bukkit.getServerName());
+									message.set(i, newString);
+								}
+								
+								if (message.get(i).contains("%%motd%")){
+									String newString = message.get(i).replace("%%motd%", Bukkit.getMotd());
+									message.set(i, newString);
+								}
+								
+								if (message.get(i).contains("%%ver%")){
+									String newString = message.get(i).replace("%%ver%", Bukkit.getVersion());
+									message.set(i, newString);
+								}
+								
+								if (message.get(i).contains("%%time%")){
+									String newString = message.get(i).replace("%%time%", plugin.getTimeString());
+									message.set(i, newString);
+								}
+								
 								sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message.get(i)));
 								if (i == 7){
 									break;

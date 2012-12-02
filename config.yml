@@ -1,8 +1,17 @@
 # If you want a user to be able to view only a selected page use the permission
 # informationcenter.page.{page-name}, or if you lazy you can setup permission groups
 # by using the permission informationcenter.book.{book-name} which is defined below.
-# Codes you can use: %%Srv% - Server Name, %%oP% - Online Players, %%mP% - Max Players, %%pN% - Player Name, %%motd% - motd
+# Codes you can use:
+#     - %%Srv% - Server Name
+#     - %%ver% - Server Craftbukkit Version
+#     - %%time% - Server Time (ie. 07:32 AM)
+#     - %%oP% - Online Players
+#     - %%mP% - Max Players
+#     - %%pN% - Player Name
+#     - %%motd% - motd
 plugin-enabled: true
+update-checker:
+  enabled: false
 motd:
   enabled: false
   message:

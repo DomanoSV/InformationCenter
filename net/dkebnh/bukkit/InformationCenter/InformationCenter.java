@@ -1,20 +1,22 @@
 package net.dkebnh.bukkit.InformationCenter;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import net.dkebnh.bukkit.InformationCenter.CommandExecutors.HelpCommandExecutor;
 import net.dkebnh.bukkit.InformationCenter.CommandExecutors.ICCommandExecutor;
 import net.dkebnh.bukkit.InformationCenter.EventListeners.PlayerLoginListener;
 import net.dkebnh.bukkit.InformationCenter.Utilities.MsgLogger;
+import net.dkebnh.bukkit.InformationCenter.Utilities.UpdateChecker;
 import net.dkebnh.bukkit.InformationCenter.Configuration;
 
-import org.bukkit.ChatColor;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class InformationCenter extends JavaPlugin {
 	public MsgLogger log;
-	
+	public UpdateChecker updateChecker;
 	private Configuration conf;
 	
     @Override
@@ -25,6 +27,12 @@ public final class InformationCenter extends JavaPlugin {
     	
 		// Link all plugin services here.
 		this.log = new MsgLogger(this);
+		this.updateChecker = new UpdateChecker(this, "http://dev.bukkit.org/server-mods/informationcenter/files.rss");
+		
+		if (this.updateChecker.updateNeeded()){
+			log.infoMSGUpdater("A new version of InformationCenter is avaliable, Version " + this.updateChecker.getVersion() + ", you can get it from: " + this.updateChecker.getLink());
+		}
+		
 		this.getCommand("ic").setExecutor(new ICCommandExecutor(this));
 		this.getCommand("help").setExecutor(new HelpCommandExecutor(this));
 		pManager.registerEvents(new PlayerLoginListener(this), this);
@@ -32,8 +40,7 @@ public final class InformationCenter extends JavaPlugin {
  
     @Override
     public void onDisable() {
-       this.saveConf();
-       log.infoMSG(ChatColor.GREEN + "[InformationCenter]" + ChatColor.WHITE + "Successfully disabled and saved config.");
+       log.infoMSG("Successfully disabled and saved config.");
     }
 	
 	public Configuration getConfiguration() {
@@ -79,4 +86,10 @@ public final class InformationCenter extends JavaPlugin {
         	return getConfig().getStringList("pages." + pageName);
     	}
     }
+	
+	public String getTimeString(){
+		Calendar cal = Calendar.getInstance();
+    	SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+    	return sdf.format(cal.getTime());
+	}
 }

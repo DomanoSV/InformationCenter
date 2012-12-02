@@ -1,7 +1,7 @@
 author: DomanoSV
 description: InformationCenter Bukkit Plugin.
 name: InformationCenter
-version: 0.1.0
+version: 0.3.1
 main: net.dkebnh.bukkit.InformationCenter.InformationCenter
 load: STARTUP
 url: http://www.dkebnh.net/

@@ -21,12 +21,20 @@ public class MsgLogger {
 		return "[" + pdFile.getName() + "] " + message;
 	}
 	
+	private String UpdaterFormatMessage(String message){
+		return "[DKE UpdateChecker] " + message;
+	}
+	
 	public void infoMSGDefault(String message){
 		this.log.info(message);
 	}
 	
 	public void infoMSG(String message){
 		this.log.info(this.FormatMessage(message));
+	}
+	
+	public void infoMSGUpdater(String message){
+		this.log.info(this.UpdaterFormatMessage(message));
 	}
 	
 	public void warningMSG(String message){
