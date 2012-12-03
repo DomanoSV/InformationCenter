@@ -44,61 +44,69 @@ public class HelpCommandExecutor implements CommandExecutor {
 		}
 		
 		if (args.length > 0){
-				if (plugin.getPage(args[0].toLowerCase())){	
-					if (!getPermission(sender, args[0].toLowerCase())){
-						sender.sendMessage(ChatColor.RED + "[InformationCenter]" + ChatColor.WHITE + " The page you are looking for doesn't exist.");
-						plugin.log.warningMSG(sender.getName() + " tried accessing the page " + args[0].toLowerCase() + ", but hasn't got the permission informationcenter.page." + args[0].toLowerCase());
+			
+			String pageSearchString = args[0];
+			for (int i = 1; i < args.length; ++i){
+				pageSearchString = pageSearchString + "-" + args[i];
+			}
+			
+			plugin.log.infoMSG("The page '" + pageSearchString +"' has been searched for by " + sender.getName());
+			
+			if (plugin.getPage(pageSearchString)){	
+				if (!getPermission(sender, pageSearchString)){
+					sender.sendMessage(ChatColor.RED + "[InformationCenter]" + ChatColor.WHITE + " The page you are looking for doesn't exist.");
+					plugin.log.warningMSG(sender.getName() + " tried accessing the page " + args[0].toLowerCase() + ", but hasn't got the permission informationcenter.page." + args[0].toLowerCase());
+				}else{
+					List<String> message = plugin.getMessage(pageSearchString);
+					if (message.isEmpty()) {
+						sender.sendMessage("&cPage has yet to have information Entered.");
 					}else{
-						List<String> message = plugin.getMessage(args[0].toLowerCase());
-						if (message.isEmpty()) {
-							sender.sendMessage("&cPage has yet to have information Entered.");
-						}else{
-							for (int i = 0; i < message.size(); i++){
-								if (message.get(i).contains("%%pN%")){
-									String newString = message.get(i).replace("%%pN%", sender.getName());
-									message.set(i, newString);
-								}
+						for (int i = 0; i < message.size(); i++){
+							if (message.get(i).contains("%%pN%")){
+								String newString = message.get(i).replace("%%pN%", sender.getName());
+								message.set(i, newString);
+							}
+							
+							if (message.get(i).contains("%%mP%")){
+								String newString = message.get(i).replace("%%mP%", Integer.toString(Bukkit.getServer().getMaxPlayers()));
+								message.set(i, newString);
+							}
 								
-								if (message.get(i).contains("%%mP%")){
-									String newString = message.get(i).replace("%%mP%", Integer.toString(Bukkit.getServer().getMaxPlayers()));
-									message.set(i, newString);
-								}
+							if (message.get(i).contains("%%oP%")){
+								String newString = message.get(i).replace("%%oP%", Integer.toString(Bukkit.getServer().getOnlinePlayers().length));
+								message.set(i, newString);
+							}
+							
+							if (message.get(i).contains("%%srvN%")){
+								String newString = message.get(i).replace("%%srvN%", Bukkit.getServerName());
+								message.set(i, newString);
+							}
 								
-								if (message.get(i).contains("%%oP%")){
-									String newString = message.get(i).replace("%%oP%", Integer.toString(Bukkit.getServer().getOnlinePlayers().length));
-									message.set(i, newString);
-								}
+							if (message.get(i).contains("%%motd%")){
+								String newString = message.get(i).replace("%%motd%", Bukkit.getMotd());
+								message.set(i, newString);
+							}
 								
-								if (message.get(i).contains("%%srvN%")){
-									String newString = message.get(i).replace("%%srvN%", Bukkit.getServerName());
-									message.set(i, newString);
-								}
+							if (message.get(i).contains("%%ver%")){
+								String newString = message.get(i).replace("%%ver%", Bukkit.getVersion());
+								message.set(i, newString);
+							}
 								
-								if (message.get(i).contains("%%motd%")){
-									String newString = message.get(i).replace("%%motd%", Bukkit.getMotd());
-									message.set(i, newString);
-								}
+							if (message.get(i).contains("%%time%")){
+								String newString = message.get(i).replace("%%time%", plugin.getTimeString());
+								message.set(i, newString);
+							}
 								
-								if (message.get(i).contains("%%ver%")){
-									String newString = message.get(i).replace("%%ver%", Bukkit.getVersion());
-									message.set(i, newString);
-								}
-								
-								if (message.get(i).contains("%%time%")){
-									String newString = message.get(i).replace("%%time%", plugin.getTimeString());
-									message.set(i, newString);
-								}
-								
-								sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message.get(i)));
-								if (i == 7){
-									break;
-								}
+							sender.sendMessage(ChatColor.translateAlternateColorCodes('&', message.get(i)));
+							if (i == 7){
+								break;
 							}
 						}
 					}
-				}else{
-					sender.sendMessage(ChatColor.RED + "[InformationCenter]" + ChatColor.WHITE + " The page you are looking for doesn't exist.");
 				}
+			}else{
+				sender.sendMessage(ChatColor.RED + "[InformationCenter]" + ChatColor.WHITE + " The page you are looking for doesn't exist.");
+			}
 		}else{
 			sender.sendMessage(ChatColor.RED + "[InformationCenter]" + ChatColor.WHITE + " Please choose the help page you wish to view.");
 		}
